@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KCPSTerminal", "KCPSTerminal\KCPSTerminal.csproj", "{5809810F-35BA-464B-9D19-CB1575CBDD85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicObserver", "..\ElectronicObserverExtended\ElectronicObserver\ElectronicObserver.csproj", "{A9ABEC50-1BFC-4C69-87AE-C68DB6004F68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLib", "..\ElectronicObserverExtended\BrowserLib\BrowserLib.csproj", "{8BB3E37D-09FB-40B9-958A-8CDCD18EF1F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Browser", "..\ElectronicObserverExtended\Browser\Browser.csproj", "{87A2B596-57D0-48BB-B522-895782D7A6FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsUI", "..\ElectronicObserverExtended\DockPanelSuite\WinFormsUI\WinFormsUI.csproj", "{C75532C4-765B-418E-B09B-46D36B2ABDB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThemeVS2012Light", "..\ElectronicObserverExtended\DockPanelSuite\WinFormsUI\ThemeVS2012Light.csproj", "{4ED4FDB5-9FD0-49E6-876D-1635F727C755}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5809810F-35BA-464B-9D19-CB1575CBDD85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5809810F-35BA-464B-9D19-CB1575CBDD85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5809810F-35BA-464B-9D19-CB1575CBDD85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5809810F-35BA-464B-9D19-CB1575CBDD85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9ABEC50-1BFC-4C69-87AE-C68DB6004F68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9ABEC50-1BFC-4C69-87AE-C68DB6004F68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9ABEC50-1BFC-4C69-87AE-C68DB6004F68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9ABEC50-1BFC-4C69-87AE-C68DB6004F68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BB3E37D-09FB-40B9-958A-8CDCD18EF1F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BB3E37D-09FB-40B9-958A-8CDCD18EF1F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BB3E37D-09FB-40B9-958A-8CDCD18EF1F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BB3E37D-09FB-40B9-958A-8CDCD18EF1F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87A2B596-57D0-48BB-B522-895782D7A6FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87A2B596-57D0-48BB-B522-895782D7A6FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87A2B596-57D0-48BB-B522-895782D7A6FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87A2B596-57D0-48BB-B522-895782D7A6FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C75532C4-765B-418E-B09B-46D36B2ABDB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C75532C4-765B-418E-B09B-46D36B2ABDB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C75532C4-765B-418E-B09B-46D36B2ABDB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C75532C4-765B-418E-B09B-46D36B2ABDB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ED4FDB5-9FD0-49E6-876D-1635F727C755}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ED4FDB5-9FD0-49E6-876D-1635F727C755}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ED4FDB5-9FD0-49E6-876D-1635F727C755}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ED4FDB5-9FD0-49E6-876D-1635F727C755}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8E8B6577-0CE5-4488-80B7-ECFC2839BDC5}
+	EndGlobalSection
+EndGlobal
