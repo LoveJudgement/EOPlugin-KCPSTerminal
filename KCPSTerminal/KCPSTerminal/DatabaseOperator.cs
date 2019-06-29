@@ -1,31 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Codeplex.Data;
 using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 
 namespace KCPSTerminal
 {
-	class DatabaseOperator
+	internal class DatabaseOperator
 	{
-		public static DatabaseOperator Singleton = new DatabaseOperator();
+		internal static DatabaseOperator Singleton = new DatabaseOperator();
 
-		private Dictionary<string, dynamic> _responses;
+		private readonly Dictionary<string, dynamic> _responses = new Dictionary<string, dynamic>();
 
 		private DatabaseOperator()
 		{
-			_responses = new Dictionary<string, dynamic>();
 		}
 
-		public void StartObserver()
+		internal void StartObserver()
 		{
 			APIObserver.Instance.ResponseReceived += (apiname, data) => { _responses[$"/kcsapi/{apiname}"] = data; };
 		}
 
-		public string HandleData(string type)
+		internal string HandleData(string type)
 		{
 			switch (type)
 			{
@@ -46,10 +42,11 @@ namespace KCPSTerminal
 					var serializedDocks = KCDatabase.Instance.Docks.Select(dock => dock.Value.RawData.ToString());
 					return $"[{string.Join(",", serializedDocks)}]";
 			}
+
 			throw new NotImplementedException();
 		}
 
-		public string HandleResponse(string type)
+		internal string HandleResponse(string type)
 		{
 			return _responses[type].ToString();
 		}

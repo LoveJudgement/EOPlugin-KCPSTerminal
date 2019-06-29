@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ElectronicObserver.Utility;
 using ElectronicObserver.Window;
 using ElectronicObserver.Window.Plugins;
@@ -19,21 +15,21 @@ namespace KCPSTerminal
 		public override string MenuTitle => "KCPSTerminal";
 		public override string Version => "<BUILD_VERSION>";
 
-		public static Plugin Singleton;
+		internal static Plugin Singleton;
 
-		private Settings _settings;
+		internal Settings Settings;
 		private NancyHost _nancyHost;
 		private const string SETTINGS_PATH = @"Settings\KCPSTerminal.json";
 
-		public FormMain FormMain;
+		internal FormMain FormMain;
 
 		public override bool RunService(FormMain main)
 		{
 			Singleton = this;
 
 			this.FormMain = main;
+			this.Settings = new Settings(); // Temporarily hardcoded config.
 
-			_settings = new Settings(); // Temporarily hardcoded config.
 			Initialize();
 			return true;
 		}
@@ -47,7 +43,7 @@ namespace KCPSTerminal
 
 		private void StartServer()
 		{
-			var address = $"http://localhost:{_settings.Port}";
+			var address = $"http://localhost:{Settings.Port}";
 
 			_nancyHost?.Stop();
 			_nancyHost = new NancyHost(new Bootstrapper(), new HostConfiguration {RewriteLocalhost = false},

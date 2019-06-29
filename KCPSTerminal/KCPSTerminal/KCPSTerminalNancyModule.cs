@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
-using System.Text;
-using System.Threading.Tasks;
 using Nancy;
 
 namespace KCPSTerminal
@@ -15,12 +12,12 @@ namespace KCPSTerminal
 		private static readonly ImageCodecInfo JpgEncoder =
 			ImageCodecInfo.GetImageDecoders().First(i => i.FormatID == ImageFormat.Jpeg.Guid);
 
-		private static readonly EncoderParameters JpgEncoderParameters = new EncoderParameters()
+		private static readonly EncoderParameters JpgEncoderParameters = new EncoderParameters
 		{
-			Param = new[] {new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 80L)}
+			Param = new[] {new EncoderParameter(Encoder.Quality, 80L)}
 		};
 
-		public KCPSTerminalNancyModule(Plugin plugin)
+		public KCPSTerminalNancyModule()
 		{
 			Get("/capture", _ =>
 			{
@@ -33,16 +30,16 @@ namespace KCPSTerminal
 
 			Get("/mouse", _ =>
 			{
-				var x = double.Parse(this.Request.Query["x"]);
-				var y = double.Parse(this.Request.Query["y"]);
-				var type = this.Request.Query["type"];
+				var x = double.Parse(Request.Query["x"]);
+				var y = double.Parse(Request.Query["y"]);
+				var type = Request.Query["type"];
 				BrowserOperator.Singleton.SendMouseEvent(x, y, type);
 				return "";
 			});
 
 			Get("/data", _ =>
 			{
-				var type = this.Request.Query["type"];
+				var type = Request.Query["type"];
 
 				try
 				{
@@ -50,7 +47,7 @@ namespace KCPSTerminal
 					response.ContentType = "application/json";
 					return response;
 				}
-				catch (NotImplementedException ex)
+				catch (NotImplementedException)
 				{
 					return HttpStatusCode.NotFound;
 				}
@@ -58,10 +55,18 @@ namespace KCPSTerminal
 
 			Get("/response", _ =>
 			{
-				var type = this.Request.Query["type"];
-				var response = (Response) DatabaseOperator.Singleton.HandleResponse(type);
-				response.ContentType = "application/json";
-				return response;
+				var type = Request.Query["type"];
+
+				try
+				{
+					var response = (Response) DatabaseOperator.Singleton.HandleResponse(type);
+					response.ContentType = "application/json";
+					return response;
+				}
+				catch (KeyNotFoundException)
+				{
+					return HttpStatusCode.NotFound;
+				}
 			});
 		}
 	}

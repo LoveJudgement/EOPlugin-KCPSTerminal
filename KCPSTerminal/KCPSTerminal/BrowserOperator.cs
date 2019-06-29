@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using ElectronicObserver.Utility;
@@ -12,7 +11,7 @@ namespace KCPSTerminal
 {
 	internal class BrowserOperator
 	{
-		public static BrowserOperator Singleton = new BrowserOperator();
+		internal static BrowserOperator Singleton = new BrowserOperator();
 
 		private BrowserOperator()
 		{
@@ -78,12 +77,12 @@ namespace KCPSTerminal
 		{
 			GCHandle gcChildhandlesList = GCHandle.FromIntPtr(lParam);
 
-			if (gcChildhandlesList == null || gcChildhandlesList.Target == null)
+			if (gcChildhandlesList.Target == null)
 			{
 				return false;
 			}
 
-			List<IntPtr> childHandles = gcChildhandlesList.Target as List<IntPtr>;
+			var childHandles = gcChildhandlesList.Target as List<IntPtr>;
 			childHandles.Add(hWnd);
 
 			return true;
@@ -109,12 +108,11 @@ namespace KCPSTerminal
 		[DllImport("user32.dll")]
 		private static extern bool PrintWindow(IntPtr hWnd, IntPtr hdcBlt, int nFlags);
 
-		public Bitmap CaptureScreen()
+		internal Bitmap CaptureScreen()
 		{
 			var handle = GetHandle();
 
-			WinAPI.RECT rc;
-			GetWindowRect(handle, out rc);
+			GetWindowRect(handle, out var rc);
 
 			Bitmap bmp = new Bitmap(rc.right - rc.left, rc.bottom - rc.top, PixelFormat.Format32bppArgb);
 			Graphics gfxBmp = Graphics.FromImage(bmp);
@@ -126,7 +124,7 @@ namespace KCPSTerminal
 			gfxBmp.Dispose();
 
 			return bmp;
-		} 
+		}
 
 		[DllImport("user32.dll")]
 		private static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
@@ -138,7 +136,7 @@ namespace KCPSTerminal
 			{"move", 0x200}, // WM_MOUSEMOVE
 		};
 
-		public void SendMouseEvent(double x, double y, string type)
+		internal void SendMouseEvent(double x, double y, string type)
 		{
 			if (!SupportedMouseEventTypes.ContainsKey(type))
 			{
@@ -147,8 +145,7 @@ namespace KCPSTerminal
 
 			var hWnd = GetHandle();
 
-			WinAPI.RECT rc;
-			GetWindowRect(hWnd, out rc);
+			GetWindowRect(hWnd, out var rc);
 
 			var xCoordinate = (int) (x * (rc.right - rc.left));
 			var yCoordinate = (int) (y * (rc.bottom - rc.top));
