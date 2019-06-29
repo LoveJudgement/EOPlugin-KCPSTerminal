@@ -8,6 +8,6 @@ namespace KCPSTerminal
 {
 	class Settings
 	{
-		public ushort Port { get; set; } = 5277;
+		public ushort Port { get; set; } = 5278;
 	}
 }
