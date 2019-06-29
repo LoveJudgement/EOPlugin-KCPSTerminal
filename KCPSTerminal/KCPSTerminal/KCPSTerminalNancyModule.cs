@@ -37,6 +37,12 @@ namespace KCPSTerminal
 				return "";
 			});
 
+			Get("/refresh", _ =>
+			{
+				BrowserOperator.Singleton.Refresh();
+				return "";
+			});
+
 			Get("/data", _ =>
 			{
 				var type = Request.Query["type"];

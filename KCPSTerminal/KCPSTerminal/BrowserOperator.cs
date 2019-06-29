@@ -6,6 +6,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Text;
 using ElectronicObserver.Utility;
+using ElectronicObserver.Window;
 
 namespace KCPSTerminal
 {
@@ -152,6 +153,11 @@ namespace KCPSTerminal
 
 			var coordinate = (yCoordinate << 16) | xCoordinate;
 			SendMessage(hWnd, SupportedMouseEventTypes[type], 1, coordinate);
+		}
+
+		internal void Refresh()
+		{
+			Plugin.Singleton.FormMain.fBrowser.RefreshBrowser();
 		}
 	}
 }
