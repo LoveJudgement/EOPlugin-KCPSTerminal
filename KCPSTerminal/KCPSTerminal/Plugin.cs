@@ -46,7 +46,7 @@ namespace KCPSTerminal
 			var address = $"http://localhost:{Settings.Port}";
 
 			_nancyHost?.Stop();
-			_nancyHost = new NancyHost(new Bootstrapper(), new HostConfiguration {RewriteLocalhost = false},
+			_nancyHost = new NancyHost(new Bootstrapper(Settings), new HostConfiguration {RewriteLocalhost = false},
 				new Uri(address));
 			_nancyHost.Start();
 
@@ -55,6 +55,13 @@ namespace KCPSTerminal
 
 		private class Bootstrapper : DefaultNancyBootstrapper
 		{
+			private readonly Settings _settings;
+
+			public Bootstrapper(Settings settings)
+			{
+				_settings = settings;
+			}
+
 			public override void Configure(INancyEnvironment environment)
 			{
 				environment.Tracing(true, true);
@@ -65,7 +72,7 @@ namespace KCPSTerminal
 			{
 				pipelines.BeforeRequest += (ctx) =>
 				{
-					Logger.Add(1, $"Received request to {ctx.Request.Url}");
+					Logger.Add(_settings.LogPriority, $"Received request to {ctx.Request.Url}");
 					return null;
 				};
 				base.ApplicationStartup(container, pipelines);
