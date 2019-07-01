@@ -46,15 +46,18 @@ namespace KCPSTerminal
 				case "constructions":
 					return SerializeList(KCDatabase.Instance.Arsenals);
 				case "resources":
+					// TODO: This behaves differently
 					return KCDatabase.Instance.Material.RawData.ToString();
-				case "maps": // EO currently does not maintain data from api_get_member/mapinfo
+				case "maps":
+					// TODO: EO currently does not maintain data from api_get_member/mapinfo
+					throw new NotImplementedException();
 				case "sortie":
+					return PrepareSortieData();
 				case "battle":
-					throw new NotImplementedException(); // TODO
+					// TODO
+					return PrepareBattleData();
 				case "miscellaneous":
-					dynamic json = new DynamicJson();
-					json.combinedFleet = KCDatabase.Instance.Fleet.CombinedFlag > 0;
-					return json.ToString();
+					return PrepareMiscData();
 				case "landBasedAirCorps":
 					return SerializeList(KCDatabase.Instance.BaseAirCorps);
 				case "preSets":
@@ -64,6 +67,47 @@ namespace KCPSTerminal
 			throw new NotImplementedException();
 		}
 
+		private string PrepareSortieData()
+		{
+			dynamic json = new DynamicJson();
+			var escapedPos = new List<int>();
+
+			var posOffset = 0;
+			foreach (var fleetData in KCDatabase.Instance.Fleet.Fleets.Values.Where(fleet => fleet.IsInSortie))
+			{
+				for (var i = 0; i < fleetData.Members.Count; i++)
+				{
+					if (fleetData.EscapedShipList.Contains(fleetData.Members[i]))
+					{
+						escapedPos.Add(i + posOffset);
+					}
+				}
+
+				posOffset += 6;
+			}
+
+			json.escapedPos = escapedPos; // TODO: Unverified!
+
+			// Our lifecycle seems to be the same with Poi's ;)
+			json.currentNode = KCDatabase.Instance.Battle.Compass.Destination;
+
+			return json.ToString();
+		}
+
+		private string PrepareBattleData()
+		{
+			dynamic json = new DynamicJson();
+			json.result = new { };
+
+			return json.toString();
+		}
+
+		private string PrepareMiscData()
+		{
+			dynamic json = new DynamicJson();
+			json.combinedFleet = KCDatabase.Instance.Fleet.CombinedFlag > 0;
+			return json.ToString();
+		}
 
 		// Manually serialize it because DynamicJson does not play well with number-indexed objects.
 		private static string SerializeDict<TData>(IDDictionary<TData> dictionary)
