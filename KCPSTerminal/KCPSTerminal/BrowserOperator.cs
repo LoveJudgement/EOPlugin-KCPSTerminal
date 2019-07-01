@@ -12,7 +12,7 @@ namespace KCPSTerminal
 {
 	internal class BrowserOperator
 	{
-		internal static BrowserOperator Singleton = new BrowserOperator();
+		internal static readonly BrowserOperator Singleton = new BrowserOperator();
 
 		private BrowserOperator()
 		{
