@@ -99,16 +99,20 @@ namespace KCPSTerminal
 			dynamic json = new DynamicJson();
 			json.result = new { };
 
-			var deckHp = new List<int>();
-			foreach (var fleet in KCDatabase.Instance.Fleet.Fleets.Values.Where(fleet => fleet.IsInSortie))
+			var battleManager = KCDatabase.Instance.Battle;
+
+			var battle = battleManager.SecondBattle ?? battleManager.FirstBattle;
+			if (battle != null)
 			{
-				deckHp.AddRange(fleet.MembersInstance.Select(ship => ship?.HPCurrent ?? 0));
+				// TODO: Verify if this works for combined fleet.
+				var wantedCount = battle.Initial.FriendFleet.Members.Count +
+				                  (battle.IsFriendCombined ? battle.Initial.FriendFleetEscort.Members.Count : 0);
+
+				json.result.deckHp = battle.ResultHPs.Take(wantedCount).Select(i => i < 0 ? 0 : i).ToArray();
 			}
 
-			json.result.deckHp = deckHp.ToArray(); // TODO: Unverified!
-
 			// TODO: our lifecycle is different than Poi! This is updated in api_req_map/start and api_req_map/next.
-			json.result.mapCell = KCDatabase.Instance.Battle?.Compass?.Destination;
+			json.result.mapCell = battleManager?.Compass?.Destination;
 
 			string serialized = json.ToString(); // Some issue in dynamic dispatch forced us to do this :(
 			return serialized;
