@@ -54,7 +54,6 @@ namespace KCPSTerminal
 				case "sortie":
 					return PrepareSortieData();
 				case "battle":
-					// TODO
 					return PrepareBattleData();
 				case "miscellaneous":
 					return PrepareMiscData();
@@ -89,9 +88,10 @@ namespace KCPSTerminal
 			json.escapedPos = escapedPos; // TODO: Unverified!
 
 			// Our lifecycle seems to be the same with Poi's ;)
-			json.currentNode = KCDatabase.Instance.Battle.Compass.Destination;
+			json.currentNode = KCDatabase.Instance.Battle?.Compass?.Destination;
 
-			return json.ToString();
+			string serialized = json.ToString();
+			return serialized;
 		}
 
 		private string PrepareBattleData()
@@ -99,7 +99,19 @@ namespace KCPSTerminal
 			dynamic json = new DynamicJson();
 			json.result = new { };
 
-			return json.toString();
+			var deckHp = new List<int>();
+			foreach (var fleet in KCDatabase.Instance.Fleet.Fleets.Values.Where(fleet => fleet.IsInSortie))
+			{
+				deckHp.AddRange(fleet.MembersInstance.Select(ship => ship?.HPCurrent ?? 0));
+			}
+
+			json.result.deckHp = deckHp.ToArray(); // TODO: Unverified!
+
+			// TODO: our lifecycle is different than Poi! This is updated in api_req_map/start and api_req_map/next.
+			json.result.mapCell = KCDatabase.Instance.Battle?.Compass?.Destination;
+
+			string serialized = json.ToString(); // Some issue in dynamic dispatch forced us to do this :(
+			return serialized;
 		}
 
 		private string PrepareMiscData()
