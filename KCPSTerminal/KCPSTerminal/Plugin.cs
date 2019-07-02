@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using Codeplex.Data;
 using ElectronicObserver.Utility;
 using ElectronicObserver.Window;
 using ElectronicObserver.Window.Plugins;
@@ -15,11 +17,12 @@ namespace KCPSTerminal
 		public override string MenuTitle => "KCPSTerminal";
 		public override string Version => "<BUILD_VERSION>";
 
+		private const string SETTINGS_PATH = @"Settings\KCPSTerminal.json";
+
 		internal static Plugin Singleton;
 
 		internal Settings Settings;
 		private NancyHost _nancyHost;
-		private const string SETTINGS_PATH = @"Settings\KCPSTerminal.json";
 
 		internal FormMain FormMain;
 
@@ -28,17 +31,16 @@ namespace KCPSTerminal
 			Singleton = this;
 
 			this.FormMain = main;
-			this.Settings = new Settings(); // Temporarily hardcoded config.
 
-			Initialize();
-			return true;
-		}
+			Settings = File.Exists(SETTINGS_PATH)
+				? (Settings) DynamicJson.Parse(File.ReadAllText(SETTINGS_PATH)).Deserialize<Settings>()
+				: new Settings();
 
-		private void Initialize()
-		{
 			DatabaseOperator.Singleton.StartObserver();
 
 			StartServer();
+
+			return true;
 		}
 
 		private void StartServer()
@@ -77,6 +79,28 @@ namespace KCPSTerminal
 				};
 				base.ApplicationStartup(container, pipelines);
 			}
+		}
+
+		internal void SaveSettings()
+		{
+			if (Settings == null)
+			{
+				return;
+			}
+
+			if (!Directory.Exists("Settings"))
+			{
+				Directory.CreateDirectory("Settings");
+			}
+
+			File.WriteAllText(SETTINGS_PATH, DynamicJson.Serialize(Settings));
+
+			StartServer();
+		}
+
+		public override PluginSettingControl GetSettings()
+		{
+			return new SettingsControl();
 		}
 	}
 }
