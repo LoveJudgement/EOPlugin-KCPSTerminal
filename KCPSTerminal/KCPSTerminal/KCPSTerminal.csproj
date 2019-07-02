@@ -84,4 +84,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir $(ProjectDir)..\..\output\Plugins 2&gt;nul
+copy /Y "$(TargetDir)$(TargetName).*" "$(ProjectDir)..\..\output\Plugins\"
+copy /Y "$(TargetDir)Nancy.dll" "$(ProjectDir)..\..\output\"
+copy /Y "$(TargetDir)Nancy.Hosting.Self.dll" "$(ProjectDir)..\..\output\"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

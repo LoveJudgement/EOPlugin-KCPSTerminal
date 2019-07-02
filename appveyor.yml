@@ -1,0 +1,41 @@
+version: 1.0.0.{build}
+
+branches:
+    only:
+        - master
+
+skip_tags: true
+
+skip_commits:
+    message: /\[chore\]/
+
+assembly_info:
+    patch: true
+    file: AssemblyInfo.*
+    assembly_version: "1.0.0.{build}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+
+image: Visual Studio 2017
+
+build:
+    project: KCPSTerminal\KCPSTerminal.sln
+
+before_build:
+    - git.exe submodule update --init --recursive
+    - nuget restore ElectronicObserverExtended\ElectronicObserver.sln
+    - nuget restore KCPSTerminal\KCPSTerminal.sln
+    - mkdir output
+    - ps: (Get-Content KCPSTerminal\KCPSTerminal\Plugin.cs -Encoding UTF8).replace("<BUILD_VERSION>", "$env:APPVEYOR_BUILD_VERSION") | Set-Content KCPSTerminal\KCPSTerminal\Plugin.cs -Encoding UTF8
+
+artifacts:
+    - path: output
+      name: KCPSTerminal-$(APPVEYOR_BUILD_VERSION)
+
+deploy:
+    provider: GitHub
+    auth_token:
+        secure: pZrXNH9Z9Qk9UblOmgftC93ZrNoX/GTu/4Xb5zeKY8jjcPtUs+uawknCgkiCO0DE
+    artifact: /.*/
+    on:
+        branch: master
