@@ -105,10 +105,23 @@ namespace KCPSTerminal
 			if (battle != null)
 			{
 				// TODO: Verify if this works for combined fleet.
-				var wantedCount = battle.Initial.FriendFleet.Members.Count +
+				var friendCount = battle.Initial.FriendFleet.Members.Count +
 				                  (battle.IsFriendCombined ? battle.Initial.FriendFleetEscort.Members.Count : 0);
+				json.result.deckHp = battle.ResultHPs.Take(friendCount).Select(i => i < 0 ? 0 : i).ToArray();
 
-				json.result.deckHp = battle.ResultHPs.Take(wantedCount).Select(i => i < 0 ? 0 : i).ToArray();
+				// Enemy fleet
+				var enemyShips = battle.Initial.EnemyMembers.Where(i => i > 0).ToList();
+				var enemyHp = battle.ResultHPs.Skip(12).Take(enemyShips.Count).ToList();
+
+				// Enemy escort fleet
+				var enemyEscortShips =
+					battle.IsEnemyCombined
+						? battle.Initial.EnemyMembersEscort.Where(i => i > 0).ToList()
+						: new List<int>();
+				var enemyEscortHp = battle.ResultHPs.Skip(18).Take(enemyEscortShips.Count).ToList();
+
+				json.result.enemyShipId = enemyShips.Concat(enemyEscortShips).ToArray();
+				json.result.enemyHp = enemyHp.Concat(enemyEscortHp).ToArray();
 			}
 
 			// TODO: our lifecycle is different than Poi! This is updated in api_req_map/start and api_req_map/next.
