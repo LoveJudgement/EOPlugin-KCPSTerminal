@@ -83,6 +83,21 @@ namespace KCPSTerminal
 
 					return null;
 				};
+
+				pipelines.AfterRequest += (ctx) =>
+				{
+					if (_settings.LogResponse && ctx.Response.ContentType == "application/json")
+					{
+						var stream = new MemoryStream();
+						ctx.Response.Contents.Invoke(stream);
+
+						stream.Position = 0;
+						using (var reader = new StreamReader(stream))
+						{
+							Logger.Add(_settings.LogPriority, $"Responding with {reader.ReadToEnd()}");
+						}
+					}
+				};
 				base.ApplicationStartup(container, pipelines);
 			}
 		}

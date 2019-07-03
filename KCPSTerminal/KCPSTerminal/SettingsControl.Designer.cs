@@ -35,6 +35,7 @@
 			this.numericUpDownLogPriority = new System.Windows.Forms.NumericUpDown();
 			this.labelToken = new System.Windows.Forms.Label();
 			this.textBoxToken = new System.Windows.Forms.TextBox();
+			this.checkBoxLogResponse = new System.Windows.Forms.CheckBox();
 			this.tableLayoutPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPort)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownLogPriority)).BeginInit();
@@ -51,10 +52,12 @@
 			this.tableLayoutPanel.Controls.Add(this.numericUpDownLogPriority, 1, 1);
 			this.tableLayoutPanel.Controls.Add(this.labelToken, 0, 2);
 			this.tableLayoutPanel.Controls.Add(this.textBoxToken, 1, 2);
+			this.tableLayoutPanel.Controls.Add(this.checkBoxLogResponse, 1, 3);
 			this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanel.Name = "tableLayoutPanel";
-			this.tableLayoutPanel.RowCount = 4;
+			this.tableLayoutPanel.RowCount = 5;
+			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -121,6 +124,17 @@
 			this.textBoxToken.Size = new System.Drawing.Size(67, 20);
 			this.textBoxToken.TabIndex = 5;
 			// 
+			// checkBoxLogResponse
+			// 
+			this.checkBoxLogResponse.AutoSize = true;
+			this.checkBoxLogResponse.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.checkBoxLogResponse.Location = new System.Drawing.Point(80, 81);
+			this.checkBoxLogResponse.Name = "checkBoxLogResponse";
+			this.checkBoxLogResponse.Size = new System.Drawing.Size(67, 17);
+			this.checkBoxLogResponse.TabIndex = 6;
+			this.checkBoxLogResponse.Text = "Includes JSON Response in Log";
+			this.checkBoxLogResponse.UseVisualStyleBackColor = true;
+			// 
 			// SettingsControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -145,5 +159,6 @@
 		private System.Windows.Forms.NumericUpDown numericUpDownLogPriority;
 		private System.Windows.Forms.Label labelToken;
 		private System.Windows.Forms.TextBox textBoxToken;
+		private System.Windows.Forms.CheckBox checkBoxLogResponse;
 	}
 }

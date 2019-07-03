@@ -17,6 +17,7 @@ namespace KCPSTerminal
 			numericUpDownPort.Value = settings.Port;
 			numericUpDownLogPriority.Value = settings.LogPriority;
 			textBoxToken.Text = settings.Token;
+			checkBoxLogResponse.Checked = settings.LogResponse;
 		}
 
 		public override bool Save()
@@ -25,6 +26,7 @@ namespace KCPSTerminal
 			settings.Port = (ushort) numericUpDownPort.Value;
 			settings.LogPriority = (int) numericUpDownLogPriority.Value;
 			settings.Token = textBoxToken.Text;
+			settings.LogResponse = checkBoxLogResponse.Checked;
 
 			Plugin.Singleton.SaveSettings();
 			return true;

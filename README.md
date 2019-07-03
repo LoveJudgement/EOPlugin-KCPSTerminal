@@ -19,7 +19,9 @@ We currently support only 2 options. They can be found in Plugin Settings.
 * Port: port to listen
 	* We always listen on local loopback interface only. If you really need to run EO and KCPS on different machines you will need some proxy.
 * Log Priority: priority of our log entries in EO log
-* Token: the token to be shared with KCPS.
+* Token: the token to be shared with KCPS
+* Log Response: whether to print all JSON responses to EO log too
+	* Please do not turn this on unless you are debugging. When selectors like `ships` are called, this produces roughly 60KB of logs for every 100 ships.
 
 Everything else is currently hardcoded (sorry).
 
