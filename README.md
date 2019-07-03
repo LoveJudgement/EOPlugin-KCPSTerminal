@@ -29,7 +29,7 @@ Everything else is currently hardcoded (sorry).
 
 ## What's Implemented and What's not
 
-As of KCPS version 1.2.7.5, all features that do not use fleet presets (艦隊編成記録) should work.
+As of KCPS version 1.2.7.5, all features (probably) should work.
 
 ### Implemented
 
@@ -56,6 +56,9 @@ As of KCPS version 1.2.7.5, all features that do not use fleet presets (艦隊�
 		* Note that for everything in `result`, our lifecycle is different than Poi. It just... happens to work because KCPS checks this at battle result page only.
 	* `miscellaneous`
 	* `landBasedAirCorps`
+	* `preSets`
+		* EO does not persist this so this is implemented ourselves.
+		* Only includes field `api_deck`.
 
 ### Unimplemented
 
@@ -65,7 +68,6 @@ Everything else, particularly:
 	* `const`: unused
 	* `resources`: unused
 	* `maps`: unused, and EO does not persist `api_get_member/mapinfo` now.
-	* `preSets`: EO does not persist this. We need to implement ourselves.
 
 ## License
 

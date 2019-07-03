@@ -13,13 +13,43 @@ namespace KCPSTerminal
 
 		private readonly Dictionary<string, dynamic> _responses = new Dictionary<string, dynamic>();
 
+		private readonly Dictionary<string, dynamic> _presets = new Dictionary<string, dynamic>();
+
 		private DatabaseOperator()
 		{
 		}
 
 		internal void StartObserver()
 		{
-			APIObserver.Instance.ResponseReceived += (apiname, data) => { _responses[$"/kcsapi/{apiname}"] = data; };
+			APIObserver.Instance.ResponseReceived += (apiname, data) =>
+			{
+				_responses[$"/kcsapi/{apiname}"] = data;
+
+				switch (apiname)
+				{
+					case "api_get_member/preset_deck":
+						_presets.Clear();
+						foreach (var elem in data.api_deck)
+						{
+							_presets[elem.Value.api_preset_no.ToString()] = elem.Value;
+						}
+
+						break;
+					case "api_req_hensei/preset_register":
+						_presets[data.api_preset_no.ToString()] = data;
+						break;
+				}
+			};
+
+			APIObserver.Instance.RequestReceived += (apiname, data) =>
+			{
+				switch (apiname)
+				{
+					case "api_req_hensei/preset_delete":
+						_presets.Remove(data["api_preset_no"]);
+						break;
+				}
+			};
 		}
 
 		internal string HandleResponse(string type)
@@ -60,7 +90,7 @@ namespace KCPSTerminal
 				case "landBasedAirCorps":
 					return SerializeList(KCDatabase.Instance.BaseAirCorps);
 				case "preSets":
-					throw new NotImplementedException(); // TODO
+					return $"{{\"api_deck\":{SerializeDict(_presets)}}}";
 			}
 
 			throw new NotImplementedException();
@@ -138,7 +168,7 @@ namespace KCPSTerminal
 			return json.ToString();
 		}
 
-		// Manually serialize it because DynamicJson does not play well with number-indexed objects.
+		// Manually serialize stuff because DynamicJson does not play well with number-indexed objects.
 		private static string SerializeDict<TData>(IDDictionary<TData> dictionary)
 			where TData : ResponseWrapper, IIdentifiable
 		{
@@ -146,12 +176,17 @@ namespace KCPSTerminal
 			return $"{{{string.Join(",", serialized)}}}";
 		}
 
-		// Manually serialize it because DynamicJson does not play well with number-indexed objects.
 		private static string SerializeList<TData>(IDDictionary<TData> dictionary)
 			where TData : ResponseWrapper, IIdentifiable
 		{
 			var serialized = dictionary.Select(e => e.Value.RawData.ToString());
 			return $"[{string.Join(",", serialized)}]";
+		}
+
+		private static string SerializeDict(Dictionary<string, dynamic> dictionary)
+		{
+			var serialized = dictionary.Select(e => $"\"{e.Key}\":{e.Value.ToString()}");
+			return $"{{{string.Join(",", serialized)}}}";
 		}
 	}
 }
