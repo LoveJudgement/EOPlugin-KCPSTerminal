@@ -10,6 +10,8 @@ i.e., `Nancy.dll` and `Nancy.Hosting.Self.dll` should be put in the same directo
 
 You may need to tweak EO browser settings (`ハードウェアアクセラレーションを有効にする` and `描画バッファを保持する`) to figure out which combination makes your `/capture` work.
 
+Note that this currently works only for the CEF based EOBrowser implementation. Gecko based implementation is not yet supported.
+
 ## Config
 
 We currently support only 2 options. They can be found in Plugin Settings.
