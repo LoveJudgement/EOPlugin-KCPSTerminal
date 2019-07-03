@@ -6,7 +6,6 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Text;
 using ElectronicObserver.Utility;
-using ElectronicObserver.Window;
 
 namespace KCPSTerminal
 {

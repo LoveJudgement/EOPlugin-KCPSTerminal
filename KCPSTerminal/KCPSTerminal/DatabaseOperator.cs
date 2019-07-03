@@ -155,7 +155,7 @@ namespace KCPSTerminal
 			}
 
 			// TODO: our lifecycle is different than Poi! This is updated in api_req_map/start and api_req_map/next.
-			json.result.mapCell = battleManager?.Compass?.Destination;
+			json.result.mapCell = battleManager.Compass?.Destination;
 
 			string serialized = json.ToString(); // Some issue in dynamic dispatch forced us to do this :(
 			return serialized;
