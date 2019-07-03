@@ -33,6 +33,8 @@
 			this.labelLogPriority = new System.Windows.Forms.Label();
 			this.numericUpDownPort = new System.Windows.Forms.NumericUpDown();
 			this.numericUpDownLogPriority = new System.Windows.Forms.NumericUpDown();
+			this.labelToken = new System.Windows.Forms.Label();
+			this.textBoxToken = new System.Windows.Forms.TextBox();
 			this.tableLayoutPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPort)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownLogPriority)).BeginInit();
@@ -47,10 +49,13 @@
 			this.tableLayoutPanel.Controls.Add(this.labelLogPriority, 0, 1);
 			this.tableLayoutPanel.Controls.Add(this.numericUpDownPort, 1, 0);
 			this.tableLayoutPanel.Controls.Add(this.numericUpDownLogPriority, 1, 1);
+			this.tableLayoutPanel.Controls.Add(this.labelToken, 0, 2);
+			this.tableLayoutPanel.Controls.Add(this.textBoxToken, 1, 2);
 			this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanel.Name = "tableLayoutPanel";
-			this.tableLayoutPanel.RowCount = 3;
+			this.tableLayoutPanel.RowCount = 4;
+			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -98,6 +103,24 @@
 			this.numericUpDownLogPriority.Size = new System.Drawing.Size(67, 20);
 			this.numericUpDownLogPriority.TabIndex = 3;
 			// 
+			// labelToken
+			// 
+			this.labelToken.AutoSize = true;
+			this.labelToken.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.labelToken.Location = new System.Drawing.Point(3, 52);
+			this.labelToken.Name = "labelToken";
+			this.labelToken.Size = new System.Drawing.Size(71, 26);
+			this.labelToken.TabIndex = 4;
+			this.labelToken.Text = "Token";
+			// 
+			// textBoxToken
+			// 
+			this.textBoxToken.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.textBoxToken.Location = new System.Drawing.Point(80, 55);
+			this.textBoxToken.Name = "textBoxToken";
+			this.textBoxToken.Size = new System.Drawing.Size(67, 20);
+			this.textBoxToken.TabIndex = 5;
+			// 
 			// SettingsControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -120,5 +143,7 @@
 		private System.Windows.Forms.Label labelLogPriority;
 		private System.Windows.Forms.NumericUpDown numericUpDownPort;
 		private System.Windows.Forms.NumericUpDown numericUpDownLogPriority;
+		private System.Windows.Forms.Label labelToken;
+		private System.Windows.Forms.TextBox textBoxToken;
 	}
 }

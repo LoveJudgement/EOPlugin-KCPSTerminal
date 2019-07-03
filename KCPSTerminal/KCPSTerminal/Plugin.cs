@@ -75,6 +75,12 @@ namespace KCPSTerminal
 				pipelines.BeforeRequest += (ctx) =>
 				{
 					Logger.Add(_settings.LogPriority, $"Received request to {ctx.Request.Url}");
+
+					if (_settings.Token != ((string) ctx.Request.Query["token"] ?? ""))
+					{
+						return HttpStatusCode.Forbidden;
+					}
+
 					return null;
 				};
 				base.ApplicationStartup(container, pipelines);

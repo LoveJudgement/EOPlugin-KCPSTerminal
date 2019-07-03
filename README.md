@@ -17,10 +17,10 @@ We currently support only 2 options. They can be found in Plugin Settings.
 * Port: port to listen
 	* We always listen on local loopback interface only. If you really need to run EO and KCPS on different machines you will need some proxy.
 * Log Priority: priority of our log entries in EO log
+* Token: the token to be shared with KCPS.
 
 Everything else is currently hardcoded (sorry).
 
-* token: unsupported, please leave empty in KCPS.
 * /capture related settings (format, compression level, scale etc.): unsupported, we currently hardcode JPEG at 80 (same with the default value of poi-plugin-kcps-terminal).
 * /mouse simulation mode: unsupported, we always use Win32 API now.
 	* This is because EOBrowser runs in a separate process and ElectronicObserver communicates with it using WCF. We are restricted on what we can do, unless we modify upstream.

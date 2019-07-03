@@ -4,5 +4,6 @@
 	{
 		public ushort Port { get; set; } = 5277;
 		public int LogPriority { get; set; } = 1;
+		public string Token { get; set; } = "";
 	}
 }

@@ -12,14 +12,19 @@ namespace KCPSTerminal
 
 		private void SettingsControl_Load(object sender, EventArgs e)
 		{
-			numericUpDownPort.Value = Plugin.Singleton.Settings.Port;
-			numericUpDownLogPriority.Value = Plugin.Singleton.Settings.LogPriority;
+			var settings = Plugin.Singleton.Settings;
+
+			numericUpDownPort.Value = settings.Port;
+			numericUpDownLogPriority.Value = settings.LogPriority;
+			textBoxToken.Text = settings.Token;
 		}
 
 		public override bool Save()
 		{
-			Plugin.Singleton.Settings.Port = (ushort) numericUpDownPort.Value;
-			Plugin.Singleton.Settings.LogPriority = (int) numericUpDownLogPriority.Value;
+			var settings = Plugin.Singleton.Settings;
+			settings.Port = (ushort) numericUpDownPort.Value;
+			settings.LogPriority = (int) numericUpDownLogPriority.Value;
+			settings.Token = textBoxToken.Text;
 
 			Plugin.Singleton.SaveSettings();
 			return true;
