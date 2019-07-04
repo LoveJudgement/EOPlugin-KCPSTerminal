@@ -132,7 +132,7 @@
 			this.checkBoxLogResponse.Name = "checkBoxLogResponse";
 			this.checkBoxLogResponse.Size = new System.Drawing.Size(67, 17);
 			this.checkBoxLogResponse.TabIndex = 6;
-			this.checkBoxLogResponse.Text = "Includes JSON Response in Log";
+			this.checkBoxLogResponse.Text = "Include JSON Responses in Log";
 			this.checkBoxLogResponse.UseVisualStyleBackColor = true;
 			// 
 			// SettingsControl
