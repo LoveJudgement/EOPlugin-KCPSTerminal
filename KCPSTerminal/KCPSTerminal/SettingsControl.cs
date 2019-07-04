@@ -15,8 +15,9 @@ namespace KCPSTerminal
 			var settings = Plugin.Singleton.Settings;
 
 			numericUpDownPort.Value = settings.Port;
-			numericUpDownLogPriority.Value = settings.LogPriority;
 			textBoxToken.Text = settings.Token;
+			numericUpDownCompressionLevel.Value = settings.JpegCompressionLevel;
+			numericUpDownLogPriority.Value = settings.LogPriority;
 			checkBoxLogResponse.Checked = settings.LogResponse;
 		}
 
@@ -24,8 +25,9 @@ namespace KCPSTerminal
 		{
 			var settings = Plugin.Singleton.Settings;
 			settings.Port = (ushort) numericUpDownPort.Value;
-			settings.LogPriority = (int) numericUpDownLogPriority.Value;
 			settings.Token = textBoxToken.Text;
+			settings.JpegCompressionLevel = (int) numericUpDownCompressionLevel.Value;
+			settings.LogPriority = (int) numericUpDownLogPriority.Value;
 			settings.LogResponse = checkBoxLogResponse.Checked;
 
 			Plugin.Singleton.SaveSettings();

@@ -16,17 +16,18 @@ Note that this currently works only for the CEF based EOBrowser implementation. 
 
 We currently support only these options. They can be found in Plugin Settings.
 
-* Port: port to listen
+* Port: port to listen.
 	* We always listen on local loopback interface only. If you really need to run EO and KCPS on different machines you will need some proxy.
-* Log Priority: priority of our log entries in EO log
-* Token: the token to be shared with KCPS
-* Log Response: whether to print all JSON responses to EO log too
+* Token: the token to be shared with KCPS.
+* JPEG Compression Level: the compression level to be used for `/capture`. Setting this to 0 will cause it to return PNG. 
+* Log Priority: priority of our log entries in EO log.
+* Log Response: whether to print all JSON responses to EO log too.
 	* Please do not turn this on unless you are debugging. When selectors like `ships` are called, this produces roughly 60KB of logs for every 100 ships.
 
 Everything else is currently hardcoded (sorry).
 
-* /capture related settings (format, compression level, scale etc.): unsupported, we currently hardcode JPEG at 80 (same with the default value of poi-plugin-kcps-terminal).
-* /mouse simulation mode: unsupported, we always use Win32 API now.
+* `/capture` scaling: unsupported, we always return original size.
+* `/mouse` simulation mode: unsupported, we always use Win32 API now.
 	* This is because EOBrowser runs in a separate process and ElectronicObserver communicates with it using WCF. We are restricted on what we can do, unless we modify upstream.
 
 ## What's Implemented and What's not

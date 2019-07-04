@@ -6,5 +6,6 @@
 		public int LogPriority { get; set; } = 1;
 		public string Token { get; set; } = "";
 		public bool LogResponse { get; set; } = false;
+		public int JpegCompressionLevel { get; set; } = 80;
 	}
 }

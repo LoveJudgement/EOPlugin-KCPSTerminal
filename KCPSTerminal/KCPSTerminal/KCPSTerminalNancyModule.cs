@@ -12,20 +12,28 @@ namespace KCPSTerminal
 		private static readonly ImageCodecInfo JpgEncoder =
 			ImageCodecInfo.GetImageDecoders().First(i => i.FormatID == ImageFormat.Jpeg.Guid);
 
-		private static readonly EncoderParameters JpgEncoderParameters = new EncoderParameters
-		{
-			Param = new[] {new EncoderParameter(Encoder.Quality, 80L)}
-		};
-
 		public KCPSTerminalNancyModule()
 		{
 			Get("/capture", _ =>
 			{
 				var bitmap = BrowserOperator.Singleton.CaptureScreen();
 				var stream = new MemoryStream();
-				bitmap.Save(stream, JpgEncoder, JpgEncoderParameters);
+
+				var compressionLevel = Plugin.Singleton.Settings.JpegCompressionLevel;
+				if (compressionLevel == 0)
+				{
+					bitmap.Save(stream, ImageFormat.Png);
+				}
+				else
+				{
+					bitmap.Save(stream, JpgEncoder, new EncoderParameters
+					{
+						Param = new[] {new EncoderParameter(Encoder.Quality, compressionLevel)}
+					});
+				}
+
 				stream.Seek(0, SeekOrigin.Begin);
-				return Response.FromStream(stream, "image/jpeg");
+				return Response.FromStream(stream, compressionLevel == 0 ? "image/png" : "image/jpeg");
 			});
 
 			Get("/mouse", _ =>
