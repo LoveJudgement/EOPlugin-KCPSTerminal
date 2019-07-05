@@ -129,7 +129,9 @@ namespace KCPSTerminal
 		[DllImport("user32.dll")]
 		private static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
-		private static readonly Dictionary<string, int> SupportedMouseEventTypes = new Dictionary<string, int>
+		private bool _isLButtonDown = false;
+
+		private static readonly Dictionary<string, int> MouseEventMsgs = new Dictionary<string, int>
 		{
 			{"down", 0x201}, // WM_LBUTTONDOWN
 			{"up", 0x202}, // WM_LBUTTONUP
@@ -138,7 +140,7 @@ namespace KCPSTerminal
 
 		internal void SendMouseEvent(double x, double y, string type)
 		{
-			if (!SupportedMouseEventTypes.ContainsKey(type))
+			if (!MouseEventMsgs.ContainsKey(type))
 			{
 				return;
 			}
@@ -146,12 +148,14 @@ namespace KCPSTerminal
 			var hWnd = GetHandle();
 
 			GetWindowRect(hWnd, out var rc);
-
 			var xCoordinate = (int) (x * (rc.right - rc.left));
 			var yCoordinate = (int) (y * (rc.bottom - rc.top));
-
 			var coordinate = (yCoordinate << 16) | xCoordinate;
-			SendMessage(hWnd, SupportedMouseEventTypes[type], 1, coordinate);
+
+			if (type == "down") _isLButtonDown = true;
+			else if (type == "up") _isLButtonDown = false;
+
+			SendMessage(hWnd, MouseEventMsgs[type], _isLButtonDown ? 1 : 0, coordinate);
 		}
 
 		internal void Refresh()
