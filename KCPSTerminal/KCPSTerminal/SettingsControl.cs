@@ -19,6 +19,9 @@ namespace KCPSTerminal
 			numericUpDownCompressionLevel.Value = settings.JpegCompressionLevel;
 			numericUpDownLogPriority.Value = settings.LogPriority;
 			checkBoxLogResponse.Checked = settings.LogResponse;
+
+			comboBoxMouseEventMode.DataSource = Enum.GetValues(typeof(Settings.MouseEventModeEnum));
+			comboBoxMouseEventMode.SelectedItem = settings.MouseEventMode;
 		}
 
 		public override bool Save()
@@ -29,6 +32,8 @@ namespace KCPSTerminal
 			settings.JpegCompressionLevel = (int) numericUpDownCompressionLevel.Value;
 			settings.LogPriority = (int) numericUpDownLogPriority.Value;
 			settings.LogResponse = checkBoxLogResponse.Checked;
+			settings.MouseEventMode = (Settings.MouseEventModeEnum) Enum.Parse(typeof(Settings.MouseEventModeEnum),
+				comboBoxMouseEventMode.SelectedItem.ToString());
 
 			Plugin.Singleton.SaveSettings();
 			return true;

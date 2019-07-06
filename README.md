@@ -23,12 +23,13 @@ We currently support only these options. They can be found in Plugin Settings.
 * Log Priority: priority of our log entries in EO log.
 * Log Response: whether to print all JSON responses to EO log too.
 	* Please do not turn this on unless you are debugging. When selectors like `ships` are called, this produces roughly 60KB of logs for every 100 ships.
+* Mouse Event Mode: the method to simulate mouse events.
+    * `WinAPI`: use Win32 API. This has some weird interference with real mouse pointer and sometimes causes EO to steal focus.
+    * `IPC`: use whatever implementation provided by `EOBrowser.exe`. For CEF this uses `MouseClickEvent` and `MouseMoveEvent`.
 
 Everything else is currently hardcoded (sorry).
 
 * `/capture` scaling: unsupported, we always return original size.
-* `/mouse` simulation mode: unsupported, we always use Win32 API now.
-	* This is because EOBrowser runs in a separate process and ElectronicObserver communicates with it using WCF. We are restricted on what we can do, unless we modify upstream.
 
 ## What's Implemented and What's not
 

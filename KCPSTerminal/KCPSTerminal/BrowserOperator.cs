@@ -126,6 +126,22 @@ namespace KCPSTerminal
 			return bmp;
 		}
 
+		internal void SendMouseEvent(double x, double y, string type)
+		{
+			switch (Plugin.Singleton.Settings.MouseEventMode)
+			{
+				case Settings.MouseEventModeEnum.WinAPI:
+					SendMouseEventWinApi(x, y, type);
+					break;
+				case Settings.MouseEventModeEnum.IPC:
+					Plugin.Singleton.FormMain.fBrowser.SendMouseEvent(type, x, y);
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
+
+
 		[DllImport("user32.dll")]
 		private static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
@@ -138,7 +154,7 @@ namespace KCPSTerminal
 			{"move", 0x200}, // WM_MOUSEMOVE
 		};
 
-		internal void SendMouseEvent(double x, double y, string type)
+		private void SendMouseEventWinApi(double x, double y, string type)
 		{
 			if (!MouseEventMsgs.ContainsKey(type))
 			{
