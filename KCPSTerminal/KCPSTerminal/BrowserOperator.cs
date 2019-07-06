@@ -13,8 +13,11 @@ namespace KCPSTerminal
 	{
 		internal static readonly BrowserOperator Singleton = new BrowserOperator();
 
+		private readonly Lazy<IntPtr> _browserHandle;
+
 		private BrowserOperator()
 		{
+			_browserHandle = new Lazy<IntPtr>(() => FindTargetHandle(Process.GetCurrentProcess().MainWindowHandle));
 		}
 
 		private const string BROWSER_CLASS_NAME = "Chrome_RenderWidgetHostHWND";
@@ -88,19 +91,6 @@ namespace KCPSTerminal
 			return true;
 		}
 
-		private IntPtr? _cachedHandle;
-
-		private IntPtr GetHandle()
-		{
-			if (_cachedHandle == null)
-			{
-				Process process = Process.GetCurrentProcess();
-				_cachedHandle = FindTargetHandle(process.MainWindowHandle);
-			}
-
-			return _cachedHandle.Value;
-		}
-
 
 		[DllImport("user32.dll")]
 		private static extern IntPtr GetWindowRect(IntPtr hWnd, out WinAPI.RECT rect);
@@ -110,15 +100,13 @@ namespace KCPSTerminal
 
 		internal Bitmap CaptureScreen()
 		{
-			var handle = GetHandle();
-
-			GetWindowRect(handle, out var rc);
+			GetWindowRect(_browserHandle.Value, out var rc);
 
 			Bitmap bmp = new Bitmap(rc.right - rc.left, rc.bottom - rc.top, PixelFormat.Format32bppArgb);
 			Graphics gfxBmp = Graphics.FromImage(bmp);
 			IntPtr hdcBitmap = gfxBmp.GetHdc();
 
-			PrintWindow(handle, hdcBitmap, 0x00000002); // PW_RENDERFULLCONTENT
+			PrintWindow(_browserHandle.Value, hdcBitmap, 0x00000002); // PW_RENDERFULLCONTENT
 
 			gfxBmp.ReleaseHdc(hdcBitmap);
 			gfxBmp.Dispose();
@@ -161,9 +149,7 @@ namespace KCPSTerminal
 				return;
 			}
 
-			var hWnd = GetHandle();
-
-			GetWindowRect(hWnd, out var rc);
+			GetWindowRect(_browserHandle.Value, out var rc);
 			var xCoordinate = (int) (x * (rc.right - rc.left));
 			var yCoordinate = (int) (y * (rc.bottom - rc.top));
 			var coordinate = (yCoordinate << 16) | xCoordinate;
@@ -171,7 +157,7 @@ namespace KCPSTerminal
 			if (type == "down") _isLButtonDown = true;
 			else if (type == "up") _isLButtonDown = false;
 
-			SendMessage(hWnd, MouseEventMsgs[type], _isLButtonDown ? 1 : 0, coordinate);
+			SendMessage(_browserHandle.Value, MouseEventMsgs[type], _isLButtonDown ? 1 : 0, coordinate);
 		}
 
 		internal void Refresh()
