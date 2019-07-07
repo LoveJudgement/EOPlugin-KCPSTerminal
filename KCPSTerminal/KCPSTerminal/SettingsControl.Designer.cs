@@ -45,6 +45,9 @@
 			((System.ComponentModel.ISupportInitialize) (this.numericUpDownLogPriority)).BeginInit();
 			((System.ComponentModel.ISupportInitialize) (this.numericUpDownCompressionLevel)).BeginInit();
 			this.SuspendLayout();
+			// 
+			// tableLayoutPanel
+			// 
 			this.tableLayoutPanel.ColumnCount = 2;
 			this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel.ColumnStyles.Add(
@@ -75,6 +78,9 @@
 				new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel.Size = new System.Drawing.Size(350, 346);
 			this.tableLayoutPanel.TabIndex = 0;
+			// 
+			// labelPort
+			// 
 			this.labelPort.AutoSize = true;
 			this.labelPort.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelPort.Location = new System.Drawing.Point(4, 0);
@@ -83,6 +89,9 @@
 			this.labelPort.Size = new System.Drawing.Size(226, 29);
 			this.labelPort.TabIndex = 0;
 			this.labelPort.Text = "Listening Port";
+			// 
+			// labelLogPriority
+			// 
 			this.labelLogPriority.AutoSize = true;
 			this.labelLogPriority.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelLogPriority.Location = new System.Drawing.Point(4, 87);
@@ -91,6 +100,9 @@
 			this.labelLogPriority.Size = new System.Drawing.Size(226, 29);
 			this.labelLogPriority.TabIndex = 6;
 			this.labelLogPriority.Text = "Log Priority";
+			// 
+			// numericUpDownPort
+			// 
 			this.numericUpDownPort.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.numericUpDownPort.Location = new System.Drawing.Point(238, 3);
 			this.numericUpDownPort.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -98,12 +110,18 @@
 			this.numericUpDownPort.Name = "numericUpDownPort";
 			this.numericUpDownPort.Size = new System.Drawing.Size(108, 23);
 			this.numericUpDownPort.TabIndex = 1;
+			// 
+			// numericUpDownLogPriority
+			// 
 			this.numericUpDownLogPriority.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.numericUpDownLogPriority.Location = new System.Drawing.Point(238, 90);
 			this.numericUpDownLogPriority.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.numericUpDownLogPriority.Name = "numericUpDownLogPriority";
 			this.numericUpDownLogPriority.Size = new System.Drawing.Size(108, 23);
 			this.numericUpDownLogPriority.TabIndex = 7;
+			// 
+			// labelToken
+			// 
 			this.labelToken.AutoSize = true;
 			this.labelToken.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelToken.Location = new System.Drawing.Point(4, 29);
@@ -112,12 +130,18 @@
 			this.labelToken.Size = new System.Drawing.Size(226, 29);
 			this.labelToken.TabIndex = 2;
 			this.labelToken.Text = "Token";
+			// 
+			// textBoxToken
+			// 
 			this.textBoxToken.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.textBoxToken.Location = new System.Drawing.Point(238, 32);
 			this.textBoxToken.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.textBoxToken.Name = "textBoxToken";
 			this.textBoxToken.Size = new System.Drawing.Size(108, 23);
 			this.textBoxToken.TabIndex = 3;
+			// 
+			// checkBoxLogResponse
+			// 
 			this.checkBoxLogResponse.AutoSize = true;
 			this.checkBoxLogResponse.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.checkBoxLogResponse.Location = new System.Drawing.Point(238, 119);
@@ -127,12 +151,18 @@
 			this.checkBoxLogResponse.TabIndex = 8;
 			this.checkBoxLogResponse.Text = "Include JSON Responses in Log";
 			this.checkBoxLogResponse.UseVisualStyleBackColor = true;
+			// 
+			// numericUpDownCompressionLevel
+			// 
 			this.numericUpDownCompressionLevel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.numericUpDownCompressionLevel.Location = new System.Drawing.Point(238, 61);
 			this.numericUpDownCompressionLevel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.numericUpDownCompressionLevel.Name = "numericUpDownCompressionLevel";
 			this.numericUpDownCompressionLevel.Size = new System.Drawing.Size(108, 23);
 			this.numericUpDownCompressionLevel.TabIndex = 5;
+			// 
+			// labelCompressionLevel
+			// 
 			this.labelCompressionLevel.AutoSize = true;
 			this.labelCompressionLevel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelCompressionLevel.Location = new System.Drawing.Point(4, 58);
@@ -141,6 +171,9 @@
 			this.labelCompressionLevel.Size = new System.Drawing.Size(226, 29);
 			this.labelCompressionLevel.TabIndex = 4;
 			this.labelCompressionLevel.Text = "JPEG Compresion Level (0 to use PNG)";
+			// 
+			// labelMouseEventMode
+			// 
 			this.labelMouseEventMode.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelMouseEventMode.Location = new System.Drawing.Point(4, 141);
 			this.labelMouseEventMode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -148,6 +181,9 @@
 			this.labelMouseEventMode.Size = new System.Drawing.Size(226, 31);
 			this.labelMouseEventMode.TabIndex = 9;
 			this.labelMouseEventMode.Text = "Mouse Event Mode";
+			// 
+			// comboBoxMouseEventMode
+			// 
 			this.comboBoxMouseEventMode.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.comboBoxMouseEventMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxMouseEventMode.FormattingEnabled = true;
@@ -156,6 +192,9 @@
 			this.comboBoxMouseEventMode.Name = "comboBoxMouseEventMode";
 			this.comboBoxMouseEventMode.Size = new System.Drawing.Size(108, 23);
 			this.comboBoxMouseEventMode.TabIndex = 10;
+			// 
+			// SettingsControl
+			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.tableLayoutPanel);
