@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using ElectronicObserver.Utility;
@@ -17,7 +18,7 @@ namespace KCPSTerminal
 
 		private BrowserOperator()
 		{
-			_browserHandle = new Lazy<IntPtr>(() => FindTargetHandle(Process.GetCurrentProcess().MainWindowHandle));
+			_browserHandle = new Lazy<IntPtr>(() => FindTargetHandle(Plugin.Singleton.FormMain.fBrowser.HWND));
 		}
 
 		private const string BROWSER_CLASS_NAME = "Chrome_RenderWidgetHostHWND";
@@ -39,56 +40,33 @@ namespace KCPSTerminal
 			       (string.Compare(className.ToString(), BROWSER_CLASS_NAME, StringComparison.OrdinalIgnoreCase) == 0);
 		}
 
-		public IntPtr FindTargetHandle(IntPtr mainHandle)
+		private IntPtr FindTargetHandle(IntPtr mainHandle)
 		{
-			List<IntPtr> childHandles = new List<IntPtr>();
+			var targetHandles = new List<IntPtr>();
 
-			GCHandle gcChildhandlesList = GCHandle.Alloc(childHandles);
-			IntPtr pointerChildHandlesList = GCHandle.ToIntPtr(gcChildhandlesList);
-
+			var gcTargetHandles = GCHandle.Alloc(targetHandles);
 			try
 			{
-				EnumWindowsProc childProc = EnumWindow;
-				EnumChildWindows(mainHandle, childProc, pointerChildHandlesList);
+				EnumChildWindows(mainHandle, EnumWindow, GCHandle.ToIntPtr(gcTargetHandles));
 			}
 			finally
 			{
-				gcChildhandlesList.Free();
+				gcTargetHandles.Free();
 			}
 
-			foreach (IntPtr handle in childHandles)
-			{
-				if (IsBrowserWindow(handle))
-				{
-					return handle;
-				}
-			}
-
-			foreach (IntPtr handle in childHandles)
-			{
-				IntPtr possibleHandle = FindTargetHandle(handle);
-				if (!possibleHandle.Equals(IntPtr.Zero))
-				{
-					return possibleHandle;
-				}
-			}
-
-			return IntPtr.Zero;
+			return targetHandles.First();
 		}
 
 		private bool EnumWindow(IntPtr hWnd, IntPtr lParam)
 		{
-			GCHandle gcChildhandlesList = GCHandle.FromIntPtr(lParam);
-
-			if (gcChildhandlesList.Target == null)
+			if (!IsBrowserWindow(hWnd))
 			{
-				return false;
+				return true;
 			}
 
-			var childHandles = gcChildhandlesList.Target as List<IntPtr>;
-			childHandles.Add(hWnd);
-
-			return true;
+			var gcTargetHandles = GCHandle.FromIntPtr(lParam);
+			((List<IntPtr>) gcTargetHandles.Target).Add(hWnd);
+			return false;
 		}
 
 
