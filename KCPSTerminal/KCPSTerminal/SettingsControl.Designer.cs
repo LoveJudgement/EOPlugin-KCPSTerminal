@@ -40,6 +40,8 @@
 			this.labelCompressionLevel = new System.Windows.Forms.Label();
 			this.labelMouseEventMode = new System.Windows.Forms.Label();
 			this.comboBoxMouseEventMode = new System.Windows.Forms.ComboBox();
+			this.labelCaptureMode = new System.Windows.Forms.Label();
+			this.comboBoxCaptureMode = new System.Windows.Forms.ComboBox();
 			this.tableLayoutPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize) (this.numericUpDownPort)).BeginInit();
 			((System.ComponentModel.ISupportInitialize) (this.numericUpDownLogPriority)).BeginInit();
@@ -63,11 +65,14 @@
 			this.tableLayoutPanel.Controls.Add(this.labelCompressionLevel, 0, 2);
 			this.tableLayoutPanel.Controls.Add(this.labelMouseEventMode, 0, 5);
 			this.tableLayoutPanel.Controls.Add(this.comboBoxMouseEventMode, 1, 5);
+			this.tableLayoutPanel.Controls.Add(this.labelCaptureMode, 0, 6);
+			this.tableLayoutPanel.Controls.Add(this.comboBoxCaptureMode, 1, 6);
 			this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.tableLayoutPanel.Name = "tableLayoutPanel";
-			this.tableLayoutPanel.RowCount = 7;
+			this.tableLayoutPanel.RowCount = 8;
+			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -193,6 +198,25 @@
 			this.comboBoxMouseEventMode.Size = new System.Drawing.Size(108, 23);
 			this.comboBoxMouseEventMode.TabIndex = 10;
 			// 
+			// labelCaptureMode
+			// 
+			this.labelCaptureMode.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.labelCaptureMode.Location = new System.Drawing.Point(3, 172);
+			this.labelCaptureMode.Name = "labelCaptureMode";
+			this.labelCaptureMode.Size = new System.Drawing.Size(228, 29);
+			this.labelCaptureMode.TabIndex = 11;
+			this.labelCaptureMode.Text = "Capture Mode";
+			// 
+			// comboBoxCaptureMode
+			// 
+			this.comboBoxCaptureMode.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.comboBoxCaptureMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxCaptureMode.FormattingEnabled = true;
+			this.comboBoxCaptureMode.Location = new System.Drawing.Point(237, 175);
+			this.comboBoxCaptureMode.Name = "comboBoxCaptureMode";
+			this.comboBoxCaptureMode.Size = new System.Drawing.Size(110, 23);
+			this.comboBoxCaptureMode.TabIndex = 12;
+			// 
 			// SettingsControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -223,6 +247,8 @@
 		private System.Windows.Forms.NumericUpDown numericUpDownCompressionLevel;
 		private System.Windows.Forms.Label labelMouseEventMode;
 		private System.Windows.Forms.ComboBox comboBoxMouseEventMode;
+		private System.Windows.Forms.Label labelCaptureMode;
+		private System.Windows.Forms.ComboBox comboBoxCaptureMode;
 		private System.Windows.Forms.Label labelCompressionLevel;
 	}
 }

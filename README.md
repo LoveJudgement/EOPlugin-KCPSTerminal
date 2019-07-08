@@ -26,6 +26,9 @@ We currently support only these options. They can be found in Plugin Settings.
 * Mouse Event Mode: the method to simulate mouse events.
     * `WinAPI`: use Win32 API. This has some weird interference with real mouse pointer and sometimes causes EO to steal focus.
     * `IPC`: use whatever implementation provided by `EOBrowser.exe`. For CEF this uses `MouseClickEvent` and `MouseMoveEvent`.
+* Capture Mode: the method to capture the screen.
+    * `WinAPI`: use Win32 API. This uses an undocumented behavior and potentially will not work on Windows < 8.1.
+    * `IPC`: use whatever implementation provided by `EOBrowser.exe`. This method potentially has more overhead and resource footprint because it needs to encode the bitmap multiple times.
 
 Everything else is currently hardcoded (sorry).
 

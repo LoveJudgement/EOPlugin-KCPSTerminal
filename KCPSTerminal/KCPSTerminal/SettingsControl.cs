@@ -22,6 +22,9 @@ namespace KCPSTerminal
 
 			comboBoxMouseEventMode.DataSource = Enum.GetValues(typeof(Settings.MouseEventModeEnum));
 			comboBoxMouseEventMode.SelectedItem = settings.MouseEventMode;
+
+			comboBoxCaptureMode.DataSource = Enum.GetValues(typeof(Settings.CaptureModeEnum));
+			comboBoxCaptureMode.SelectedItem = settings.CaptureMode;
 		}
 
 		public override bool Save()
@@ -34,6 +37,8 @@ namespace KCPSTerminal
 			settings.LogResponse = checkBoxLogResponse.Checked;
 			settings.MouseEventMode = (Settings.MouseEventModeEnum) Enum.Parse(typeof(Settings.MouseEventModeEnum),
 				comboBoxMouseEventMode.SelectedItem.ToString());
+			settings.CaptureMode = (Settings.CaptureModeEnum) Enum.Parse(typeof(Settings.CaptureModeEnum),
+				comboBoxCaptureMode.SelectedItem.ToString());
 
 			Plugin.Singleton.SaveSettings();
 			return true;

@@ -10,7 +10,8 @@ namespace KCPSTerminal
 		public bool LogResponse { get; set; } = false;
 		public int JpegCompressionLevel { get; set; } = 80;
 
-		// String version for MouseEventMode. Using string so we don't break DynamicJson.
+
+		// String version of MouseEventMode. Using string so we don't break DynamicJson.
 		// DO NOT use this directly.
 		public string _mouseEventMode { get; set; } = MouseEventModeEnum.WinAPI.ToString();
 
@@ -25,6 +26,24 @@ namespace KCPSTerminal
 		{
 			get => (MouseEventModeEnum) Enum.Parse(typeof(MouseEventModeEnum), _mouseEventMode);
 			set => _mouseEventMode = value.ToString();
+		}
+
+
+		// String version of CaptureMode. Using string so we don't break DynamicJson.
+		// DO NOT use this directly.
+		public string _captureMode { get; set; } = CaptureModeEnum.WinAPI.ToString();
+
+		public enum CaptureModeEnum
+		{
+			WinAPI = 0,
+			IPC = 1,
+		}
+
+		// internal so DynamicJson does not attempt to serialize this.
+		internal CaptureModeEnum CaptureMode
+		{
+			get => (CaptureModeEnum) Enum.Parse(typeof(CaptureModeEnum), _captureMode);
+			set => _captureMode = value.ToString();
 		}
 	}
 }

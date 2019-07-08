@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -69,6 +69,23 @@ namespace KCPSTerminal
 			return false;
 		}
 
+		internal Bitmap CaptureScreen()
+		{
+			switch (Plugin.Singleton.Settings.CaptureMode)
+			{
+				case Settings.CaptureModeEnum.WinAPI:
+					return CaptureScreenWinApi();
+
+				case Settings.CaptureModeEnum.IPC:
+					using (var stream = new MemoryStream(Plugin.Singleton.FormMain.fBrowser.TakeScreenShotAsPngBytes()))
+					{
+						return (Bitmap) Image.FromStream(stream);
+					}
+
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
 
 		[DllImport("user32.dll")]
 		private static extern IntPtr GetWindowRect(IntPtr hWnd, out WinAPI.RECT rect);
@@ -76,7 +93,7 @@ namespace KCPSTerminal
 		[DllImport("user32.dll")]
 		private static extern bool PrintWindow(IntPtr hWnd, IntPtr hdcBlt, int nFlags);
 
-		internal Bitmap CaptureScreen()
+		private Bitmap CaptureScreenWinApi()
 		{
 			GetWindowRect(_browserHandle.Value, out var rc);
 
@@ -92,6 +109,7 @@ namespace KCPSTerminal
 			return bmp;
 		}
 
+
 		internal void SendMouseEvent(double x, double y, string type)
 		{
 			switch (Plugin.Singleton.Settings.MouseEventMode)
@@ -106,7 +124,6 @@ namespace KCPSTerminal
 					throw new ArgumentOutOfRangeException();
 			}
 		}
-
 
 		[DllImport("user32.dll")]
 		private static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
