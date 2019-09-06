@@ -62,6 +62,8 @@ As of KCPS version 1.2.7.5, all features (probably) should work.
 		* `result.mapCell`
 		* Note that for everything in `result`, our lifecycle is different than Poi. It just... happens to work because KCPS checks this at battle result page only.
 	* `miscellaneous`
+	    * `combinedFleet`
+	    * `combinedFleetType`
 	* `landBasedAirCorps`
 	* `preSets`
 		* EO does not persist this so this is implemented ourselves.

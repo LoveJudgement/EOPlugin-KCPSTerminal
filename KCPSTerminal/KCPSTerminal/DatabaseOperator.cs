@@ -165,6 +165,7 @@ namespace KCPSTerminal
 		{
 			dynamic json = new DynamicJson();
 			json.combinedFleet = KCDatabase.Instance.Fleet.CombinedFlag > 0;
+			json.combinedFleetType = KCDatabase.Instance.Fleet.CombinedFlag;
 			return json.ToString();
 		}
 
