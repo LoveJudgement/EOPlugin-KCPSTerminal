@@ -4,6 +4,7 @@ using System.Linq;
 using Codeplex.Data;
 using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
+using ElectronicObserver.Utility.Mathematics;
 
 namespace KCPSTerminal
 {
@@ -66,15 +67,38 @@ namespace KCPSTerminal
 				case "basic":
 					return KCDatabase.Instance.Admiral.RawData.ToString();
 				case "fleets":
-					return KCDatabase.Instance.Fleet.RawData.ToString();
+					return SerializeList(KCDatabase.Instance.Fleet.Fleets, (fleet, data) =>
+					{
+						data.api_name = fleet.Name;
+						data.api_ship = fleet.Members;
+						data.api_mission[0] = fleet.ExpeditionState;
+						data.api_mission[1] = fleet.ExpeditionDestination;
+						data.api_mission[2] = DateTimeHelper.ToAPITime(fleet.ExpeditionTime);
+					});
 				case "ships":
-					return SerializeDict(KCDatabase.Instance.Ships);
+					return SerializeDict(KCDatabase.Instance.Ships, (ship, data) =>
+					{
+						data.api_nowhp = ship.HPCurrent;
+						data.api_fuel = ship.Fuel;
+						data.api_bull = ship.Ammo;
+						data.api_cond = ship.Condition;
+						data.api_slot = ship.Slot;
+						data.api_slot_ex = ship.ExpansionSlot;
+						data.api_onslot = ship.Aircraft;
+						// Skipping data.api_kyouka
+					});
 				case "equips":
 					return SerializeDict(KCDatabase.Instance.Equipments);
 				case "repairs":
-					return SerializeList(KCDatabase.Instance.Docks);
+					return SerializeList(KCDatabase.Instance.Docks, (dock, data) =>
+					{
+						data.api_state = dock.State;
+						data.api_ship_id = dock.ShipID;
+						data.api_complete_time = DateTimeHelper.ToAPITime(dock.CompletionTime);
+					});
 				case "constructions":
-					return SerializeList(KCDatabase.Instance.Arsenals);
+					return SerializeList(KCDatabase.Instance.Arsenals,
+						(arsenal, data) => { data.api_state = arsenal.State; });
 				case "resources":
 					// TODO: This behaves differently
 					return KCDatabase.Instance.Material.RawData.ToString();
@@ -88,7 +112,11 @@ namespace KCPSTerminal
 				case "miscellaneous":
 					return PrepareMiscData();
 				case "landBasedAirCorps":
-					return SerializeList(KCDatabase.Instance.BaseAirCorps);
+					return SerializeList(KCDatabase.Instance.BaseAirCorps, (baseAirCorps, data) =>
+					{
+						data.api_name = baseAirCorps.Name;
+						data.api_action_kind = baseAirCorps.ActionKind;
+					});
 				case "preSets":
 					return $"{{\"api_deck\":{SerializeDict(_presets)}}}";
 			}
@@ -170,17 +198,20 @@ namespace KCPSTerminal
 		}
 
 		// Manually serialize stuff because DynamicJson does not play well with number-indexed objects.
-		private static string SerializeDict<TData>(IDDictionary<TData> dictionary)
+		private static string SerializeDict<TData>(IDDictionary<TData> dictionary,
+			Action<TData, dynamic> transformer = null)
 			where TData : ResponseWrapper, IIdentifiable
 		{
-			var serialized = dictionary.Select(e => $"\"{e.Key}\":{e.Value.RawData.ToString()}");
+			var serialized =
+				dictionary.Select(e => $"\"{e.Key}\":{SerializeWithTransformer(e.Value, transformer)}");
 			return $"{{{string.Join(",", serialized)}}}";
 		}
 
-		private static string SerializeList<TData>(IDDictionary<TData> dictionary)
+		private static string SerializeList<TData>(IDDictionary<TData> dictionary,
+			Action<TData, dynamic> transformer = null)
 			where TData : ResponseWrapper, IIdentifiable
 		{
-			var serialized = dictionary.Select(e => e.Value.RawData.ToString());
+			var serialized = dictionary.Select(e => SerializeWithTransformer(e.Value, transformer));
 			return $"[{string.Join(",", serialized)}]";
 		}
 
@@ -188,6 +219,21 @@ namespace KCPSTerminal
 		{
 			var serialized = dictionary.Select(e => $"\"{e.Key}\":{e.Value.ToString()}");
 			return $"{{{string.Join(",", serialized)}}}";
+		}
+
+		private static string SerializeWithTransformer<TData>(TData data, Action<TData, dynamic> transformer)
+			where TData : ResponseWrapper, IIdentifiable
+		{
+			if (transformer == null)
+			{
+				return data.RawData.ToString();
+			}
+
+			var rawData = Plugin.Singleton.Settings.SkipCopyRawData
+				? data.RawData
+				: DynamicJson.Parse(data.RawData.ToString());
+			transformer(data, rawData);
+			return rawData.ToString();
 		}
 	}
 }

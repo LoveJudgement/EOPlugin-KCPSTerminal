@@ -9,6 +9,7 @@ namespace KCPSTerminal
 		public string Token { get; set; } = "";
 		public bool LogResponse { get; set; } = false;
 		public int JpegCompressionLevel { get; set; } = 80;
+		public bool SkipCopyRawData { get; set; } = false;
 
 
 		// String version of MouseEventMode. Using string so we don't break DynamicJson.
