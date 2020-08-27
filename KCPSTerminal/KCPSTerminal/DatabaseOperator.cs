@@ -20,10 +20,7 @@ namespace KCPSTerminal
 
 		internal void StartObserver()
 		{
-			APIObserver.Instance.ResponseReceived += (apiname, data) =>
-			{
-				_responses[$"/kcsapi/{apiname}"] = data;
-			};
+			APIObserver.Instance.ResponseReceived += (apiname, data) => { _responses[$"/kcsapi/{apiname}"] = data; };
 		}
 
 		internal string HandleResponse(string type)
@@ -73,8 +70,7 @@ namespace KCPSTerminal
 					return SerializeList(KCDatabase.Instance.Arsenals,
 						(arsenal, data) => { data.api_state = arsenal.State; });
 				case "resources":
-					// TODO: This behaves differently
-					return KCDatabase.Instance.Material.RawData.ToString();
+					return PrepareResourcesData();
 				case "maps":
 					// TODO: EO currently does not maintain data from api_get_member/mapinfo
 					throw new NotImplementedException();
@@ -95,6 +91,16 @@ namespace KCPSTerminal
 			}
 
 			throw new NotImplementedException();
+		}
+
+		private string PrepareResourcesData()
+		{
+			var m = KCDatabase.Instance.Material;
+			return JsonObject.Serialize(new[]
+			{
+				m.Fuel, m.Ammo, m.Steel, m.Bauxite,
+				m.InstantConstruction, m.InstantRepair, m.DevelopmentMaterial, m.ModdingMaterial,
+			});
 		}
 
 		private string PrepareSortieData()

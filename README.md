@@ -52,6 +52,7 @@ As of KCPS version 1.2.7.5, all features (probably) should work.
 	* `equips`
 	* `repairs`
 	* `constructions`
+	* `resources`
 	* `sortie` (only the used fields)
 		* `escapedPos`: unverified, because this is only used during an event.
 		* `currentNode`
@@ -75,7 +76,6 @@ Everything else, particularly:
 
 * `/data`
 	* `const`: unused
-	* `resources`: unused
 	* `maps`: unused, and EO does not persist `api_get_member/mapinfo` now.
 
 ## License
