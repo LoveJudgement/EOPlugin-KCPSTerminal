@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Codeplex.Data;
+using DynaJson;
 using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Utility.Mathematics;
@@ -126,7 +126,7 @@ namespace KCPSTerminal
 
 		private string PrepareSortieData()
 		{
-			dynamic json = new DynamicJson();
+			dynamic json = new JsonObject();
 			var escapedPos = new List<int>();
 
 			var posOffset = 0;
@@ -154,7 +154,7 @@ namespace KCPSTerminal
 
 		private string PrepareBattleData()
 		{
-			dynamic json = new DynamicJson();
+			dynamic json = new JsonObject();
 			json.result = new { };
 
 			var battleManager = KCDatabase.Instance.Battle;
@@ -191,7 +191,7 @@ namespace KCPSTerminal
 
 		private string PrepareMiscData()
 		{
-			dynamic json = new DynamicJson();
+			dynamic json = new JsonObject();
 			json.combinedFleet = KCDatabase.Instance.Fleet.CombinedFlag > 0;
 			json.combinedFleetType = KCDatabase.Instance.Fleet.CombinedFlag;
 			return json.ToString();
@@ -231,7 +231,7 @@ namespace KCPSTerminal
 
 			var rawData = Plugin.Singleton.Settings.SkipCopyRawData
 				? data.RawData
-				: DynamicJson.Parse(data.RawData.ToString());
+				: JsonObject.Parse(data.RawData.ToString());
 			transformer(data, rawData);
 			return rawData.ToString();
 		}
