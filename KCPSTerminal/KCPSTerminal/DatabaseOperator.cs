@@ -14,8 +14,6 @@ namespace KCPSTerminal
 
 		private readonly Dictionary<string, dynamic> _responses = new Dictionary<string, dynamic>();
 
-		private readonly Dictionary<string, dynamic> _presets = new Dictionary<string, dynamic>();
-
 		private DatabaseOperator()
 		{
 		}
@@ -25,31 +23,6 @@ namespace KCPSTerminal
 			APIObserver.Instance.ResponseReceived += (apiname, data) =>
 			{
 				_responses[$"/kcsapi/{apiname}"] = data;
-
-				switch (apiname)
-				{
-					case "api_get_member/preset_deck":
-						_presets.Clear();
-						foreach (var elem in data.api_deck)
-						{
-							_presets[elem.Value.api_preset_no.ToString()] = elem.Value;
-						}
-
-						break;
-					case "api_req_hensei/preset_register":
-						_presets[data.api_preset_no.ToString()] = data;
-						break;
-				}
-			};
-
-			APIObserver.Instance.RequestReceived += (apiname, data) =>
-			{
-				switch (apiname)
-				{
-					case "api_req_hensei/preset_delete":
-						_presets.Remove(data["api_preset_no"]);
-						break;
-				}
 			};
 		}
 
@@ -118,7 +91,7 @@ namespace KCPSTerminal
 						data.api_action_kind = baseAirCorps.ActionKind;
 					});
 				case "preSets":
-					return $"{{\"api_deck\":{SerializeDict(_presets)}}}";
+					return $"{{\"api_deck\":{SerializeDict(KCDatabase.Instance.FleetPreset.Presets)}}}";
 			}
 
 			throw new NotImplementedException();
