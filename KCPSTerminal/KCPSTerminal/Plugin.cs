@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Codeplex.Data;
+using DynaJson;
 using ElectronicObserver.Utility;
 using ElectronicObserver.Window;
 using ElectronicObserver.Window.Plugins;
@@ -33,7 +33,7 @@ namespace KCPSTerminal
 			this.FormMain = main;
 
 			Settings = File.Exists(SETTINGS_PATH)
-				? (Settings) DynamicJson.Parse(File.ReadAllText(SETTINGS_PATH)).Deserialize<Settings>()
+				? (Settings) JsonObject.Parse(File.ReadAllText(SETTINGS_PATH)).Deserialize<Settings>()
 				: new Settings();
 
 			DatabaseOperator.Singleton.StartObserver();
@@ -114,7 +114,7 @@ namespace KCPSTerminal
 				Directory.CreateDirectory("Settings");
 			}
 
-			File.WriteAllText(SETTINGS_PATH, DynamicJson.Serialize(Settings));
+			File.WriteAllText(SETTINGS_PATH, JsonObject.Serialize(Settings));
 
 			StartServer();
 		}
